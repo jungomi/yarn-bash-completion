@@ -41,7 +41,7 @@ _yarn_completion() {
       licenses)
         opts="$opts --production"
         ;;
-      list)
+      list|ls|la|ll)
         opts="$opts --depth"
         ;;
       pack)
@@ -50,10 +50,10 @@ _yarn_completion() {
       publish)
         opts="$opts --new-version --message --no-git-tag-version --access --tag"
         ;;
-      upgrade)
+      upgrade|update|up)
         opts="$opts --ignore-engines"
         ;;
-      version)
+      version|verison|v)
         opts="$opts --new-version --message --no-git-tag-version"
         ;;
     esac
@@ -80,7 +80,7 @@ _yarn_completion() {
         comp="ls dir clean"
       fi
       ;;
-    config)
+    config|c)
       if [[ $COMP_CWORD == 2 ]]; then
         comp="set get delete list"
       fi
@@ -99,22 +99,22 @@ _yarn_completion() {
         comp="ls generate-disclaimer"
       fi
       ;;
-    owner)
+    owner|author)
       if [[ $COMP_CWORD == 2 ]]; then
         comp="add rm ls"
       fi
       ;;
-    remove)
+    remove|r|rm|un|uninstall)
       if [[ -f "./package.json" ]]; then
         comp=$(node -e "$get_dependencies")
       fi
       ;;
-    run)
+    run|runScript|run-script)
       if [[ -f "./package.json" ]]; then
         comp=$(node -e "$get_scripts")
       fi
       ;;
-    tag)
+    tag|dist-tag|dist-tags)
       if [[ $COMP_CWORD == 2 ]]; then
         comp="add rm ls"
       fi
