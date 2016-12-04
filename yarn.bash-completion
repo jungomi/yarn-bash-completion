@@ -6,7 +6,7 @@ _yarn_completion() {
   COMPREPLY=()
   curr="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
-  subcommands="access add bin cache check clean config generate-lock-entry global info init install licenses link login logout ls outdated owner pack publish remove run self-update tag team unlink upgrade upgrade-interactive version versions why"
+  subcommands="access add bin cache check clean config generate-lock-entry global info init install licenses link list login logout outdated owner pack publish remove run tag team unlink upgrade upgrade-interactive version versions why"
   opts="-h --help -V --version --verbose --offline --prefer-offline --strict-semver --json --ignore-scripts --har --ignore-platform --ignore-engines --ignore-optional --force --no-bin-links --flat --prod --production --no-lockfile --pure-lockfile --global-folder --modules-folder --cache-folder --mutex --no-emoji --proxy --https-proxy --no-progress"
 
   # Node scripts
@@ -41,7 +41,7 @@ _yarn_completion() {
       licenses)
         opts="$opts --production"
         ;;
-      ls)
+      list)
         opts="$opts --depth"
         ;;
       pack)
