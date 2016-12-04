@@ -1,13 +1,27 @@
 #!/usr/bin/env bash
 
 _yarn_completion() {
-  local curr prev opts subcommands subsub
+  local curr prev opts subcommands comp get_scripts get_dependencies get_global_dependencies
 
   COMPREPLY=()
   curr="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
   subcommands="access add bin cache check clean config generate-lock-entry global info init install licenses link login logout ls outdated owner pack publish remove run self-update tag team unlink upgrade upgrade-interactive version versions why"
   opts="-h --help -V --version --verbose --offline --prefer-offline --strict-semver --json --ignore-scripts --har --ignore-platform --ignore-engines --ignore-optional --force --no-bin-links --flat --prod --production --no-lockfile --pure-lockfile --global-folder --modules-folder --cache-folder --mutex --no-emoji --proxy --https-proxy --no-progress"
+
+  # Node scripts
+  get_scripts="const pkg = require('./package.json'); \
+    const scripts = pkg.scripts ? Object.keys(pkg.scripts) : [];
+    console.log(scripts.join(' '))"
+  get_dependencies="const pkg = require('./package.json'); \
+    const deps = pkg.dependencies ? Object.keys(pkg.dependencies) : [];
+    const devDeps = pkg.devDependencies ? Object.keys(pkg.devDependencies) : []; \
+    console.log(deps.concat(devDeps).join(' '));"
+  get_global_dependencies="const path = require('path'); \
+    const yarnPath = '.config/yarn/global/package.json';
+    const pkg = require(path.join(process.env.HOME, yarnPath)); \
+    const deps = pkg.dependencies ? Object.keys(pkg.dependencies) : [];
+    console.log(deps.join(' '));"
 
   # Options
   if [[ "$curr" == -* ]]; then
@@ -48,42 +62,77 @@ _yarn_completion() {
     return 0
   fi
 
+  # Subcommand expected
   if [[ $COMP_CWORD == 1 ]]; then
-    # Subcommand expected
     COMPREPLY=($(compgen -W "$subcommands" -- "$curr"))
     return 0
-  elif [[ $COMP_CWORD == 2 ]]; then
-    # Arguments to subcommand
-    case "${COMP_WORDS[1]}" in
-      access)
-        subsub="public restricted grant revoke ls-packages ls-collaborators edit"
-        ;;
-      cache)
-        subsub="ls dir clean"
-        ;;
-      config)
-        subsub="set get delete list"
-        ;;
-      global)
-        subsub="add bin ls remove upgrade"
-        ;;
-      licenses)
-        subsub="ls generate-disclaimer"
-        ;;
-      owner)
-        subsub="add rm ls"
-        ;;
-      tag)
-        subsub="add rm ls"
-        ;;
-      team)
-        subsub="create destroy add rm ls"
-        ;;
-    esac
-
-    COMPREPLY=($(compgen -W "$subsub" -- "$curr"))
-    return 0
   fi
+
+  # Arguments to subcommand
+  case "${COMP_WORDS[1]}" in
+    access)
+      if [[ $COMP_CWORD == 2 ]]; then
+        comp="public restricted grant revoke ls-packages ls-collaborators edit"
+      fi
+      ;;
+    cache)
+      if [[ $COMP_CWORD == 2 ]]; then
+        comp="ls dir clean"
+      fi
+      ;;
+    config)
+      if [[ $COMP_CWORD == 2 ]]; then
+        comp="set get delete list"
+      fi
+      ;;
+    global)
+      if [[ $COMP_CWORD == 2 ]]; then
+        comp="add bin ls remove upgrade"
+      elif [[ "${COMP_WORDS[2]}" == "remove" ]]; then
+        if [[ -f "$HOME/.config/yarn/global/package.json" ]]; then
+          comp=$(node -e "$get_global_dependencies")
+        fi
+      fi
+      ;;
+    licenses)
+      if [[ $COMP_CWORD == 2 ]]; then
+        comp="ls generate-disclaimer"
+      fi
+      ;;
+    owner)
+      if [[ $COMP_CWORD == 2 ]]; then
+        comp="add rm ls"
+      fi
+      ;;
+    remove)
+      if [[ -f "./package.json" ]]; then
+        comp=$(node -e "$get_dependencies")
+      fi
+      ;;
+    run)
+      if [[ -f "./package.json" ]]; then
+        comp=$(node -e "$get_scripts")
+      fi
+      ;;
+    tag)
+      if [[ $COMP_CWORD == 2 ]]; then
+        comp="add rm ls"
+      fi
+      ;;
+    team)
+      if [[ $COMP_CWORD == 2 ]]; then
+        comp="create destroy add rm ls"
+      fi
+      ;;
+    why)
+      if [[ -d "./node_modules" ]]; then
+        comp=$(ls node_modules)
+      fi
+      ;;
+  esac
+
+  COMPREPLY=($(compgen -W "$comp" -- "$curr"))
+  return 0
 }
 
 complete -o default -F _yarn_completion yarn
