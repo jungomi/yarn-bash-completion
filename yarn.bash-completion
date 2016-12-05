@@ -68,65 +68,66 @@ _yarn_completion() {
     return 0
   fi
 
-  # Arguments to subcommand
-  case "${COMP_WORDS[1]}" in
-    access)
-      if [[ $COMP_CWORD == 2 ]]; then
+  # First argument to subcommands
+  if [[ $COMP_CWORD == 2 ]]; then
+    case "${COMP_WORDS[1]}" in
+      access)
         comp="public restricted grant revoke ls-packages ls-collaborators edit"
-      fi
-      ;;
-    cache)
-      if [[ $COMP_CWORD == 2 ]]; then
+        ;;
+      cache)
         comp="ls dir clean"
-      fi
-      ;;
-    config|c)
-      if [[ $COMP_CWORD == 2 ]]; then
+        ;;
+      config|c)
         comp="set get delete list"
-      fi
-      ;;
-    global)
-      if [[ $COMP_CWORD == 2 ]]; then
+        ;;
+      global)
         comp="add bin ls remove upgrade"
-      elif [[ "${COMP_WORDS[2]}" == "remove" ]]; then
+        ;;
+      licenses)
+        comp="ls generate-disclaimer"
+        ;;
+      owner|author)
+        comp="add rm ls"
+        ;;
+      remove|r|rm|un|uninstall)
+        if [[ -f "./package.json" ]]; then
+          comp=$(node -e "$get_dependencies")
+        fi
+        ;;
+      run|runScript|run-script)
+        if [[ -f "./package.json" ]]; then
+          comp=$(node -e "$get_scripts")
+        fi
+        ;;
+      tag|dist-tag|dist-tags)
+        comp="add rm ls"
+        ;;
+      team)
+        comp="create destroy add rm ls"
+        ;;
+      why)
+        if [[ -d "./node_modules" ]]; then
+          comp=$(ls node_modules)
+        fi
+        ;;
+    esac
+
+    COMPREPLY=($(compgen -W "$comp" -- "$curr"))
+    return 0
+  fi
+
+  # Subcommands with more than one argument
+  case "${COMP_WORDS[1]}" in
+    global)
+      if [[ "${COMP_WORDS[2]}" == "remove" ]]; then
         if [[ -f "$HOME/.config/yarn/global/package.json" ]]; then
           comp=$(node -e "$get_global_dependencies")
         fi
       fi
       ;;
-    licenses)
-      if [[ $COMP_CWORD == 2 ]]; then
-        comp="ls generate-disclaimer"
-      fi
-      ;;
-    owner|author)
-      if [[ $COMP_CWORD == 2 ]]; then
-        comp="add rm ls"
-      fi
-      ;;
     remove|r|rm|un|uninstall)
       if [[ -f "./package.json" ]]; then
         comp=$(node -e "$get_dependencies")
-      fi
-      ;;
-    run|runScript|run-script)
-      if [[ $COMP_CWORD == 2 && -f "./package.json" ]]; then
-        comp=$(node -e "$get_scripts")
-      fi
-      ;;
-    tag|dist-tag|dist-tags)
-      if [[ $COMP_CWORD == 2 ]]; then
-        comp="add rm ls"
-      fi
-      ;;
-    team)
-      if [[ $COMP_CWORD == 2 ]]; then
-        comp="create destroy add rm ls"
-      fi
-      ;;
-    why)
-      if [[ $COMP_CWORD == 2 && -d "./node_modules" ]]; then
-        comp=$(ls node_modules)
       fi
       ;;
   esac
