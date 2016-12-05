@@ -110,7 +110,7 @@ _yarn_completion() {
       fi
       ;;
     run|runScript|run-script)
-      if [[ -f "./package.json" ]]; then
+      if [[ $COMP_CWORD == 2 && -f "./package.json" ]]; then
         comp=$(node -e "$get_scripts")
       fi
       ;;
@@ -125,7 +125,7 @@ _yarn_completion() {
       fi
       ;;
     why)
-      if [[ -d "./node_modules" ]]; then
+      if [[ $COMP_CWORD == 2 && -d "./node_modules" ]]; then
         comp=$(ls node_modules)
       fi
       ;;
