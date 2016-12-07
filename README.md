@@ -11,6 +11,9 @@ Simple bash completion for [yarn][yarn].
   directory.
 - `yarn global remove`: Globally installed packages, which are automatically
   listed in `$HOME/.config/yarn/global/package.json`.
+- `yarn link`: Packages that have been linked by invoking `yarn link` without
+  any arguments in the directory of a module, which can then be used in another
+  project by running `yarn link package-name`.
 - `yarn why`: The packages in `node_modules` of the current directory.
 
 ## Installation

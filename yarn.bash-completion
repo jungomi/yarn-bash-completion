@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 _yarn_completion() {
-  local curr prev opts subcommands comp get_scripts get_dependencies get_global_dependencies
+  local curr prev opts subcommands comp get_scripts get_dependencies get_global_dependencies yarn_config
 
   COMPREPLY=()
   curr="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
+  yarn_config="$HOME/.config/yarn"
   subcommands="access add bin cache check clean config generate-lock-entry global help info init install licenses link list login logout outdated owner pack publish remove run tag team unlink upgrade upgrade-interactive version versions why"
   opts="-h --help -V --version --verbose --offline --prefer-offline --strict-semver --json --ignore-scripts --har --ignore-platform --ignore-engines --ignore-optional --force --no-bin-links --flat --prod --production --no-lockfile --pure-lockfile --global-folder --modules-folder --cache-folder --mutex --no-emoji --proxy --https-proxy --no-progress"
 
@@ -89,6 +90,11 @@ _yarn_completion() {
       licenses)
         comp="ls generate-disclaimer"
         ;;
+      link)
+        if [[ -d "$yarn_config/link" ]]; then
+          comp=$(find "$yarn_config/link" -type l | sed -e "s#$yarn_config/link/##")
+        fi
+        ;;
       owner|author)
         comp="add rm ls"
         ;;
@@ -123,9 +129,14 @@ _yarn_completion() {
   case "${COMP_WORDS[1]}" in
     global)
       if [[ "${COMP_WORDS[2]}" == "remove" ]]; then
-        if [[ -f "$HOME/.config/yarn/global/package.json" ]]; then
+        if [[ -f "$yarn_config/global/package.json" ]]; then
           comp=$(node -e "$get_global_dependencies")
         fi
+      fi
+      ;;
+    link)
+      if [[ -d "$yarn_config/link" ]]; then
+        comp=$(find "$yarn_config/link" -type l | sed -e "s#$yarn_config/link/##")
       fi
       ;;
     remove|r|rm|un|uninstall)
