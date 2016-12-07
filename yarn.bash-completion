@@ -90,7 +90,7 @@ _yarn_completion() {
       licenses)
         comp="ls generate-disclaimer"
         ;;
-      link)
+      link|unlink)
         if [[ -d "$yarn_config/link" ]]; then
           comp=$(find "$yarn_config/link" -type l | sed -e "s#$yarn_config/link/##")
         fi
@@ -134,7 +134,7 @@ _yarn_completion() {
         fi
       fi
       ;;
-    link)
+    link|unlink)
       if [[ -d "$yarn_config/link" ]]; then
         comp=$(find "$yarn_config/link" -type l | sed -e "s#$yarn_config/link/##")
       fi
