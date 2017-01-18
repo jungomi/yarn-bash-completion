@@ -98,7 +98,7 @@ _yarn_completion() {
       owner|author)
         comp="add rm ls"
         ;;
-      remove|r|rm|un|uninstall)
+      info|outdated|remove|r|rm|un|uninstall|upgrade|update|up)
         if [[ -f "./package.json" ]]; then
           comp=$(node -e "$get_dependencies")
         fi
@@ -139,7 +139,7 @@ _yarn_completion() {
         comp=$(find "$yarn_config/link" -type l | sed -e "s#$yarn_config/link/##")
       fi
       ;;
-    remove|r|rm|un|uninstall)
+    outdated|remove|r|rm|un|uninstall|upgrade|update|up)
       if [[ -f "./package.json" ]]; then
         comp=$(node -e "$get_dependencies")
       fi
