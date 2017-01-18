@@ -128,11 +128,13 @@ _yarn_completion() {
   # Subcommands with more than one argument
   case "${COMP_WORDS[1]}" in
     global)
-      if [[ "${COMP_WORDS[2]}" == "remove" ]]; then
-        if [[ -f "$yarn_config/global/package.json" ]]; then
-          comp=$(node -e "$get_global_dependencies")
-        fi
-      fi
+      case "${COMP_WORDS[2]}" in
+        remove|upgrade)
+          if [[ -f "$yarn_config/global/package.json" ]]; then
+            comp=$(node -e "$get_global_dependencies")
+          fi
+          ;;
+      esac
       ;;
     link|unlink)
       if [[ -d "$yarn_config/link" ]]; then
