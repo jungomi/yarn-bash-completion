@@ -39,7 +39,7 @@ _yarn_completion() {
       init)
         opts="$opts -y --yes"
         ;;
-      list|ls|la|ll)
+      list)
         opts="$opts --depth"
         ;;
       pack)
@@ -48,7 +48,7 @@ _yarn_completion() {
       publish)
         opts="$opts --new-version --message --no-git-tag-version --access --tag"
         ;;
-      version|verison|v)
+      version)
         opts="$opts --new-version --message --no-git-tag-version"
         ;;
     esac
@@ -72,7 +72,7 @@ _yarn_completion() {
       cache)
         comp="ls dir clean"
         ;;
-      config|c)
+      config)
         comp="set get delete list"
         ;;
       create)
@@ -92,20 +92,20 @@ _yarn_completion() {
           comp=$(find "$yarn_config/link" -type l | sed -e "s#$yarn_config/link/##")
         fi
         ;;
-      owner|author)
+      owner)
         comp="add rm ls"
         ;;
-      info|outdated|remove|r|rm|un|uninstall|upgrade|update|up)
+      info|outdated|remove|upgrade)
         if [[ -f "./package.json" ]]; then
           comp=$(node -e "$get_dependencies")
         fi
         ;;
-      run|runScript|run-script)
+      run)
         if [[ -f "./package.json" ]]; then
           comp=$(node -e "$get_scripts")
         fi
         ;;
-      tag|dist-tag|dist-tags)
+      tag)
         comp="add rm ls"
         ;;
       team)
@@ -138,7 +138,7 @@ _yarn_completion() {
         comp=$(find "$yarn_config/link" -type l | sed -e "s#$yarn_config/link/##")
       fi
       ;;
-    outdated|remove|r|rm|un|uninstall|upgrade|update|up)
+    outdated|remove|upgrade)
       if [[ -f "./package.json" ]]; then
         comp=$(node -e "$get_dependencies")
       fi
