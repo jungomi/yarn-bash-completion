@@ -79,7 +79,7 @@ _yarn_completion() {
         comp="react-app react-native-app next-app vue-app elm-app xp-app"
         ;;
       global)
-        comp="add bin ls remove upgrade upgrade-interactive"
+        comp="add bin list remove upgrade upgrade-interactive"
         ;;
       help)
         comp="$commands"
