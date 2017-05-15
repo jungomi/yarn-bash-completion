@@ -8,7 +8,7 @@ _yarn_completion() {
   prev="${COMP_WORDS[COMP_CWORD-1]}"
   yarn_config="$HOME/.config/yarn"
   commands="access add bin cache check clean config create generate-lock-entry global help import info init install licenses link list login logout outdated owner pack publish remove run tag team unlink upgrade upgrade-interactive version versions why"
-  opts="-h --help -V --version --verbose --offline --prefer-offline --strict-semver --json --ignore-scripts --har --ignore-platform --ignore-engines --ignore-optional --force --skip-integrity-check --check-files --no-bin-links --flat --prod --production --no-lockfile --pure-lockfile --frozen-lockfile --link-duplicates --global-folder --modules-folder --cache-folder --mutex --no-emoji -s --silent --proxy --https-proxy --no-progress --network-concurrency --network-timeout --non-interactive"
+  opts="-h --help -V --version --verbose --offline --prefer-offline --strict-semver --json --ignore-scripts --har --ignore-platform --ignore-engines --ignore-optional --force --skip-integrity-check --check-files --no-bin-links --flat --prod --production --no-lockfile --pure-lockfile --frozen-lockfile --link-duplicates --global-folder --modules-folder --cache-folder --mutex --emoji -s --silent --proxy --https-proxy --no-progress --network-concurrency --network-timeout --non-interactive"
 
   # Node scripts
   get_scripts="const pkg = require('./package.json'); \
