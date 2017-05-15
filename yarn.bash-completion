@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 _yarn_completion() {
-  local curr prev opts subcommands comp get_scripts get_dependencies get_global_dependencies yarn_config
+  local curr prev opts commands comp get_scripts get_dependencies get_global_dependencies yarn_config
 
   COMPREPLY=()
   curr="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
   yarn_config="$HOME/.config/yarn"
-  subcommands="access add bin cache check clean config create generate-lock-entry global help import info init install licenses link list login logout outdated owner pack publish remove run tag team unlink upgrade upgrade-interactive version versions why"
+  commands="access add bin cache check clean config create generate-lock-entry global help import info init install licenses link list login logout outdated owner pack publish remove run tag team unlink upgrade upgrade-interactive version versions why"
   opts="-h --help -V --version --verbose --offline --prefer-offline --strict-semver --json --ignore-scripts --har --ignore-platform --ignore-engines --ignore-optional --force --skip-integrity-check --check-files --no-bin-links --flat --prod --production --no-lockfile --pure-lockfile --frozen-lockfile --link-duplicates --global-folder --modules-folder --cache-folder --mutex --no-emoji -s --silent --proxy --https-proxy --no-progress --network-concurrency --network-timeout --non-interactive"
 
   # Node scripts
@@ -57,13 +57,13 @@ _yarn_completion() {
     return 0
   fi
 
-  # Subcommand expected
+  # Command expected
   if [[ $COMP_CWORD == 1 ]]; then
-    COMPREPLY=($(compgen -W "$subcommands" -- "$curr"))
+    COMPREPLY=($(compgen -W "$commands" -- "$curr"))
     return 0
   fi
 
-  # First argument to subcommands
+  # First argument to commands
   if [[ $COMP_CWORD == 2 ]]; then
     case "${COMP_WORDS[1]}" in
       access)
@@ -82,7 +82,7 @@ _yarn_completion() {
         comp="add bin ls remove upgrade upgrade-interactive"
         ;;
       help)
-        comp="$subcommands"
+        comp="$commands"
         ;;
       licenses)
         comp="ls generate-disclaimer"
@@ -122,7 +122,7 @@ _yarn_completion() {
     return 0
   fi
 
-  # Subcommands with more than one argument
+  # Commands with more than one argument
   case "${COMP_WORDS[1]}" in
     global)
       case "${COMP_WORDS[2]}" in
