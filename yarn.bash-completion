@@ -33,6 +33,9 @@ _yarn_completion() {
       check)
         opts="$opts --integrity --verify-tree"
         ;;
+      generate-lock-entry)
+        opts="$opts --use-manifest --resolved --registry --use-manifest --resolved"
+        ;;
       global)
         opts="$opts --prefix"
         ;;
@@ -47,6 +50,9 @@ _yarn_completion() {
         ;;
       publish)
         opts="$opts --new-version --message --no-git-tag-version --access --tag"
+        ;;
+      upgrade|upgrade-interactive)
+        opts="$opts -S --scope --latest -E --exact --latest -T --tilde --latest -C --caret --latest"
         ;;
       version)
         opts="$opts --new-version --message --no-git-tag-version"
