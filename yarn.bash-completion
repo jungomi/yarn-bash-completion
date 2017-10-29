@@ -82,22 +82,22 @@ _yarn_completion() {
         comp="public restricted grant revoke ls-packages ls-collaborators edit"
         ;;
       cache)
-        comp="ls dir clean"
+        comp="list dir clean"
         ;;
       config)
-        comp="set get delete list"
+        comp="set get delete list current"
         ;;
       create)
         comp="react-app react-native-app next-app vue-app elm-app xp-app"
         ;;
       global)
-        comp="add bin list remove upgrade upgrade-interactive"
+        comp="add bin dir list remove upgrade upgrade-interactive"
         ;;
       help)
         comp="$commands"
         ;;
       licenses)
-        comp="ls generate-disclaimer"
+        comp="list generate-disclaimer"
         ;;
       link|unlink)
         if [[ -d "$yarn_config/link" ]]; then
@@ -105,7 +105,7 @@ _yarn_completion() {
         fi
         ;;
       owner)
-        comp="add rm ls"
+        comp="add remove list"
         ;;
       info|outdated|remove|upgrade)
         if [[ -f "./package.json" ]]; then
@@ -118,10 +118,10 @@ _yarn_completion() {
         fi
         ;;
       tag)
-        comp="add rm ls"
+        comp="add remove list"
         ;;
       team)
-        comp="create destroy add rm ls"
+        comp="create destroy add remove list"
         ;;
       why)
         if [[ -d "./node_modules" ]]; then
