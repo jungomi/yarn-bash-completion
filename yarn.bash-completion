@@ -8,7 +8,7 @@ _yarn_completion() {
   prev="${COMP_WORDS[COMP_CWORD-1]}"
   yarn_config="$HOME/.config/yarn"
   commands="access add autoclean bin cache check config create exec generate-lock-entry global help import info init install licenses link list login logout outdated owner pack publish remove run tag team unlink upgrade upgrade-interactive version versions why workspace"
-  opts="-h --help --version -v --verbose --offline --prefer-offline --strict-semver --json --ignore-scripts --har --ignore-platform --ignore-engines --ignore-optional --force --skip-integrity-check --check-files --no-bin-links --flat --prod --production --no-lockfile --pure-lockfile --frozen-lockfile --link-duplicates --global-folder --modules-folder --cache-folder --mutex --emoji -s --silent --proxy --https-proxy --no-progress --network-concurrency --network-timeout --non-interactive --scripts-prepend-node-path"
+  opts="-h --help -v --version --verbose --offline --prefer-offline --strict-semver --json --ignore-scripts --har --ignore-platform --ignore-engines --ignore-optional --force --skip-integrity-check --check-files --no-bin-links --flat --prod --production --no-lockfile --pure-lockfile --frozen-lockfile --link-duplicates --link-folder --global-folder --modules-folder --preferred-cache-folder --cache-folder --mutex --emoji -s --silent --cwd --proxy --https-proxy --registry --no-progress --network-concurrency --network-timeout --non-interactive --scripts-prepend-node-path --no-node-version-check"
 
   # Node scripts
   get_scripts="const pkg = require('./package.json'); \
@@ -28,22 +28,28 @@ _yarn_completion() {
   if [[ "$curr" == -* ]]; then
     case "${COMP_WORDS[1]}" in
       add)
-        opts="$opts -D --dev -P --peer -O --optional -E --exact -T --tilde"
+        opts="$opts -W --ignore-workspace-root-check -D --dev -P --peer -O --optional -E --exact -T --tilde"
+        ;;
+      autoclean)
+        opts="$opts -I --init -F --force"
+        ;;
+      cache)
+        opts="$opts --pattern"
         ;;
       check)
         opts="$opts --integrity --verify-tree"
         ;;
       generate-lock-entry)
-        opts="$opts --use-manifest --resolved --registry --use-manifest --resolved"
+        opts="$opts --use-manifest --resolved --registry"
         ;;
       global)
         opts="$opts --prefix"
         ;;
       init)
-        opts="$opts -y --yes"
+        opts="$opts -y --yes -p --private"
         ;;
       list)
-        opts="$opts --depth"
+        opts="$opts --depth --pattern"
         ;;
       pack)
         opts="$opts -f --filename"
@@ -52,7 +58,7 @@ _yarn_completion() {
         opts="$opts --new-version --message --no-git-tag-version --access --tag"
         ;;
       upgrade|upgrade-interactive)
-        opts="$opts -S --scope --latest -E --exact --latest -T --tilde --latest -C --caret --latest"
+        opts="$opts -S --scope -L --latest -E --exact -P --pattern -T --tilde -C --caret"
         ;;
       version)
         opts="$opts --new-version --message --no-git-tag-version"
