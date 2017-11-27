@@ -43,7 +43,7 @@ _yarn_completion() {
         opts="$opts --use-manifest --resolved --registry"
         ;;
       global)
-        opts="$opts --prefix"
+        opts="$opts --prefix --latest"
         ;;
       init)
         opts="$opts -y --yes -p --private"
